@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import requests
+import argparse
 import itertools
 from random import shuffle
 from StringIO import StringIO
@@ -63,8 +64,6 @@ class WhatCollage:
 		params = {'action': action, 'id': id}
 		if self.authkey:
 			params['auth'] = self.authkey
-		if id:
-			params['id'] = id
 		r = self.session.get(ajaxpage, params = params, allow_redirects = False)
 		response = r.json()
 		return response
@@ -105,3 +104,17 @@ class WhatCollage:
 				new_collage.paste(image, (i,j))
 				x = (x + 1) % len(wikiImages)
 		new_collage.save(fname)
+
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser(description = 'WhatCD Collage. Give a collage ID, and get a neat wallpaper! Fair trade.')
+	parser.add_argument('-u', '--user', help = 'Your WhatCD username.', required = True)
+	parser.add_argument('-p', '--passw', help = 'Your WhatCD password.', required = True)
+	parser.add_argument('-id', help = 'ID of the collage you want.', required = True, type = int)
+	parser.add_argument('-s', '--size', help = 'Select the size of your wallpaper. Two arguments, width and height.', nargs = 2, default = [1200, 1200], type = int)
+	parser.add_argument('-r', '--random', help = 'Optional: Use this option if you want a random order of album images.', action = 'store_true')
+	parser.add_argument('-t', '--thumbnail', help = 'Optional: The size of each individual album art within the collage.', choices=[100, 200, 300], type = int)
+	parser.add_argument('-f', '--fname', help = 'Optional: Name of the output collage image.', type = str)
+	args = parser.parse_args()
+	what = WhatCollage(args.user, args.passw)
+	what.collage(args.id, args.size, args.random, args.thumbnail, args.fname)
+	what.logout()
