@@ -1,0 +1,4 @@
+*.pyc
+client.py
+.DS_STORE
+venv/
