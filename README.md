@@ -11,7 +11,7 @@ pip install -r requirements.txt
 #### Run:
 Command line:
 
-```shell
+```python
 $ python whatcollage.py -u <username> -p <password> -id <ID> [-s Width Height] [-r] [-t {100,200,300}] [-f FNAME]
 ```
 * `-u, --user`: Your WhatCD username.
