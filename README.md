@@ -12,7 +12,7 @@ pip install -r requirements.txt
 Command line:
 
 ```shell
-$ python whatcollage.py -u <username> -p <password> -id <ID> [-s SIZE SIZE] [-r] [-t {100,200,300}] [-f FNAME]
+$ python whatcollage.py -u <username> -p <password> -id <ID> [-s Width Height] [-r] [-t {100,200,300}] [-f FNAME]
 ```
 * `-u, --user`: Your WhatCD username.
 
@@ -20,13 +20,18 @@ $ python whatcollage.py -u <username> -p <password> -id <ID> [-s SIZE SIZE] [-r]
 
 * `-id`: The collage ID, which can be found in the collage `URL` as such: `https://what.cd/collages.php?id=23184`
 
-* `-s, --size`: Height and width of your collage image. Would recommend an `n x n` size; `2400 x 2400` looks neat...Set to `1200 x 1200` by default.
+* `-s, --size`: Width and height of your collage image. Would recommend an `n x n` size; `2400 x 2400` looks neat...Set to `1200 x 1200` by default.
 
-* `-r`: Use this option if you want the album images to appear out of order from the original collage. Set to `False` by default.
+* `-r`, `--random`: Use this option if you want the album images to appear out of order from the original collage. Set to `False` by default.
 
 * `-t, --thumbnail`: Size of each individual album art within the collage. Shouldn't be set past `300`, since it won't look very nice. Set to `100` by default.
 
 * `-f, --fname`: The desired output file name. Set to `collage.png` by default.
+
+#### Example:
+```python
+$ python whatcollage.py -u myname -p mypassword -s 1200 1200 -r -t 100 -f collage.png -id 23184
+```
 
 As an imported module:
 
@@ -44,5 +49,4 @@ collage(id, size, random = False, thumbnail = None, fname = None)
 ```
 
 Here's the result for the previous example:
-
 ![Collage](collage.png)

@@ -64,8 +64,12 @@ class WhatCollage:
 		params = {'action': action, 'id': id}
 		if self.authkey:
 			params['auth'] = self.authkey
-		r = self.session.get(ajaxpage, params = params, allow_redirects = False)
-		response = r.json()
+		try:
+			r = self.session.get(ajaxpage, params = params, allow_redirects = False)
+			response = r.json()
+		except ValueError:
+			print "There was a problem fetching the collage. Try again."
+			sys.exit()
 		return response
 
 	def collage(self, id, size, random = False, thumbnail = None, fname = None):
@@ -86,23 +90,23 @@ class WhatCollage:
 			fname = 'collage.png'
 		new_collage = Image.new('RGB', size)
 		progress = itertools.cycle(['/', '-', '\\', '|'])
-		x = 0
-		for j in range(0, size[1], thumbnail):
-			for i in range(0, size[0], thumbnail):
+		x = i = j = 0
+		while (j < size[1]):
+			while (i < size[0]):
 				sys.stdout.write("Building collage " + next(progress) + '\r')
 				sys.stdout.flush()
 				try:
 					r = requests.get(wikiImages[x])
 					image = Image.open(StringIO(r.content))
-				except requests.exceptions.RequestException:
-					x = (x + 1) % len(wikiImages)
-					continue
-				except IOError:
+				except (requests.exceptions.RequestException, IOError):
 					x = (x + 1) % len(wikiImages)
 					continue
 				image.thumbnail((thumbnail,thumbnail), Image.LANCZOS)
 				new_collage.paste(image, (i,j))
 				x = (x + 1) % len(wikiImages)
+				i+=thumbnail
+			j+=thumbnail
+			i = 0
 		new_collage.save(fname)
 
 if __name__ == '__main__':
