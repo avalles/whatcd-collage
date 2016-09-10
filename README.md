@@ -11,7 +11,7 @@ pip install -r requirements.txt
 #### Run:
 Command line:
 
-```python
+```
 $ python whatcollage.py -u <username> -p <password> -id <ID> [-s Width Height] [-r] [-t {100,200,300}] [-f FNAME]
 ```
 * `-u, --user`: Your WhatCD username.
@@ -29,7 +29,7 @@ $ python whatcollage.py -u <username> -p <password> -id <ID> [-s Width Height] [
 * `-f, --fname`: The desired output file name. Set to `collage.png` by default.
 
 #### Example:
-```python
+```
 $ python whatcollage.py -u myname -p mypassword -s 1200 1200 -r -t 100 -f collage.png -id 23184
 ```
 
